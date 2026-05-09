@@ -6,18 +6,18 @@ from RK4 import RK4
 dt = 0.001
 t = np.arange(0,10,dt)
 
-func = np.log
+func = lambda x: x * (1 - x)
 
 N = len(t)
 results=[]
 
-for n in np.arange(0,10,np.pi/10):
+for n in np.arange(0,2.1,0.4):
 
     results.append(RK4(func,n,dt,N))
 
 # 2. Setup the Grid
 t_grid = np.linspace(0, 10, 25)
-x_grid = np.linspace(0, 10, 25)
+x_grid = np.linspace(0, 2, 25)
 T, X = np.meshgrid(t_grid, x_grid)
 
 # 3. Compute Slopes
@@ -34,8 +34,14 @@ plt.figure(figsize=(10, 6))
 
 # angles='xy' and scale_units='xy' align arrows with the axes
 # 'scale' controls the length of the arrows (higher number = shorter arrows)
-plt.quiver(T, X, dt_field, dx_field, color='gray', alpha=0.4, 
+magnitude = np.abs(dx_field)  # or just dx_field if you want signed values
+
+plt.quiver(T, X, dt_field, dx_field, magnitude,  # extra argument = color values
+           cmap='plasma',         # colormap: 'plasma', 'viridis', 'coolwarm', 'jet' etc.
+           alpha=0.8,
            angles='xy', scale_units='xy', scale=5)
+
+
 
 #alternate way to visualize vector field.
 #plt.streamplot(T, X, dt_field, dx_field, color='gray', linewidth=1, 
@@ -43,7 +49,7 @@ plt.quiver(T, X, dt_field, dx_field, color='gray', alpha=0.4,
 
 # Plot RK4 Result
 for j in range(0,len(results)):
-    plt.plot(t, results[j], color='blue', linewidth=2)
+    plt.plot(t, results[j], color ="black", linewidth=2)
 
 
 
@@ -54,4 +60,5 @@ plt.ylabel('State (x)')
 plt.title(' Vector Field & RK4 Solution')
 plt.legend()
 plt.grid(True, alpha=0.3)
-plt.show()
+plt.savefig(r'Nonlinear-Dynamics-and-Chaos\Chapter 2\plot.png')
+
