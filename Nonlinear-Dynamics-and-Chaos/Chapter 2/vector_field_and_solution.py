@@ -11,7 +11,7 @@ func = lambda x: x * (1 - x)
 N = len(t)
 results=[]
 
-for n in np.arange(0,2.1,0.4):
+for n in [0.001,0.01,0.1,0.5,1,1.25,1.5,1.8]:
 
     results.append(RK4(func,n,dt,N))
 
