@@ -12,7 +12,7 @@ def x_dot(x):
     return np.sin(x)
 
 def RK4(f,x0,dt = dt):
-
+    
     x = np.zeros(N)
     x[0] = x0
 
