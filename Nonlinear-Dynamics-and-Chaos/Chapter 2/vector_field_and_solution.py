@@ -6,18 +6,18 @@ from RK4 import RK4
 dt = 0.001
 t = np.arange(0,10,dt)
 
-func = lambda x: x * (1 - x)
+func = lambda x: x*(1-x)
 
 N = len(t)
 results=[]
 
-for n in [0.001,0.01,0.1,0.5,1,1.25,1.5,1.8]:
+for n in [0,0.001,0.01,0.1,0.5,1,2]:
 
     results.append(RK4(func,n,dt,N))
 
 # 2. Setup the Grid
 t_grid = np.linspace(0, 10, 25)
-x_grid = np.linspace(0, 2, 25)
+x_grid = np.linspace(0, 2.1, 25)
 T, X = np.meshgrid(t_grid, x_grid)
 
 # 3. Compute Slopes
@@ -58,7 +58,6 @@ for j in range(0,len(results)):
 plt.xlabel('Time (t)')
 plt.ylabel('State (x)')
 plt.title(' Vector Field & RK4 Solution')
-plt.legend()
+
 plt.grid(True, alpha=0.3)
 plt.savefig(r'Nonlinear-Dynamics-and-Chaos\Chapter 2\plot.png')
-
