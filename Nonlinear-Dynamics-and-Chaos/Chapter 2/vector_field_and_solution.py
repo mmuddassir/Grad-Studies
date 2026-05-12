@@ -5,8 +5,9 @@ from RK4 import RK4
 
 dt = 0.001
 t = np.arange(0,10,dt)
+r=2
 
-func = lambda x: x*(1-x)
+func = lambda x: r*x - x**2
 
 N = len(t)
 results=[]
@@ -29,35 +30,33 @@ norm = np.sqrt(dt_field**2 + dx_field**2)
 dt_field /= norm
 dx_field /= norm
 
-# 4. Plotting
-plt.figure(figsize=(10, 6))
 
-# angles='xy' and scale_units='xy' align arrows with the axes
-# 'scale' controls the length of the arrows (higher number = shorter arrows)
-magnitude = np.abs(dx_field)  # or just dx_field if you want signed values
-
-plt.quiver(T, X, dt_field, dx_field, magnitude,  # extra argument = color values
-           cmap='plasma',         # colormap: 'plasma', 'viridis', 'coolwarm', 'jet' etc.
-           alpha=0.8,
+fig, (ax1, ax2) = plt.subplots(2,1, figsize=(8, 10))
+# --- Left: Vector field + t vs x ---
+magnitude = np.abs(dx_field)
+ax1.quiver(T, X, dt_field, dx_field, magnitude,
+           cmap='plasma', alpha=0.8,
            angles='xy', scale_units='xy', scale=5)
 
+for j in range(len(results)):
+    ax1.plot(t, results[j], color="black", linewidth=2)
 
+ax1.set_xlabel('Time (t)')
+ax1.set_ylabel('State (x)')
+ax1.set_title('Vector Field & RK4 Solutions')
+ax1.grid(True, alpha=0.3)
 
-#alternate way to visualize vector field.
-#plt.streamplot(T, X, dt_field, dx_field, color='gray', linewidth=1, 
-              # density=0.8, arrowstyle='->', arrowsize=1.5)
+# --- Right: x vs xdot ---
+x_vals = np.linspace(-2, 2, 500)
+xdot_vals = func(x_vals)
 
-# Plot RK4 Result
-for j in range(0,len(results)):
-    plt.plot(t, results[j], color ="black", linewidth=2)
+ax2.plot(x_vals, xdot_vals, color='royalblue', linewidth=2.5)
+ax2.axhline(0, color='gray', linewidth=0.8, linestyle='--')
 
+ax2.set_xlabel('State (x)')
+ax2.set_ylabel(r'$\dot{x}$')
+ax2.set_title(r'Phase Portrait: $x$ vs $\dot{x}$')
+ax2.grid(True, alpha=0.3)
 
-
-
-# Aesthetics
-plt.xlabel('Time (t)')
-plt.ylabel('State (x)')
-plt.title(' Vector Field & RK4 Solution')
-
-plt.grid(True, alpha=0.3)
+plt.tight_layout()
 plt.savefig(r'Nonlinear-Dynamics-and-Chaos\Chapter 2\plot.png')
