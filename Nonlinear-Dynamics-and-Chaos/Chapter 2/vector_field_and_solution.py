@@ -4,21 +4,22 @@ import matplotlib.pyplot as plt
 from RK4 import RK4
 
 dt = 0.001
-t = np.arange(0,10,dt)
+t = np.arange(0,10+dt,dt)
 r=2
 
-func = lambda x: r*x - x**2
+
+func = lambda x: r*x*(1-x)
 
 N = len(t)
-results=[]
+results = []
 
-for n in [0,0.001,0.01,0.1,0.5,1,2]:
+for n in [0,0.01,1,1.5,2]:
 
     results.append(RK4(func,n,dt,N))
-
+print(np.max(results[-1]))
 # 2. Setup the Grid
-t_grid = np.linspace(0, 10, 25)
-x_grid = np.linspace(0, 2.1, 25)
+t_grid = np.linspace(0, np.max(t), 30)
+x_grid = np.linspace(0, np.max(results[-1]), 30)
 T, X = np.meshgrid(t_grid, x_grid)
 
 # 3. Compute Slopes
