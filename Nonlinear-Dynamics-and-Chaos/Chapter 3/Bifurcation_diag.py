@@ -24,14 +24,14 @@ def xdot(x, p):
     #return p - x**2          # saddle-node normal form (default example)
     # Other examples to try:
     #return p*x + x**3      # supercritical pitchfork
-    #return p*x - x**2      # transcritical
-    return x*(p - x)       # logistic  (p = carrying capacity / growth rate)
+    return 1 + p*x + x**2      # transcritical
+    #return x*(p - x)       # logistic  (p = carrying capacity / growth rate)
 
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 2.  PARAMETER & STATE RANGES  ← EDIT THIS
 # ─────────────────────────────────────────────────────────────────────────────
-P_MIN, P_MAX   = -1.0,  2.0   # parameter sweep range
+P_MIN, P_MAX   = 0,  5.0   # parameter sweep range
 X_MIN, X_MAX   = -3.0,  3.0   # x range to search for fixed points
 PARAM_NAME     = "p"           # label shown on x-axis
 STATE_NAME     = "x"           # label shown on y-axis

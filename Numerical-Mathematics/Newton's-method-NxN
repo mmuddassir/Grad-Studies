@@ -1,0 +1,74 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import math
+
+def Newtons_method(f, X0, J, tol=1e-6, nmax=100):
+    X = X0.astype(float) #In case I enter integers for the initial guess
+    
+    
+    print(f"{'n':^2} | {'X Vector':^45} | {'f(X) Vector':^45}") #Table headers, 
+                                                                #^ makes them center aligned and 
+                                                                #the number is the spacing
+    print("=" * 100)
+    
+    for i in range(nmax):
+        fx = f(X)
+        
+        X_str = f"[{', '.join(f'{val}' for val in X)}]"
+        fx_str = f"[{', '.join(f'{val}' for val in fx)}]"
+        
+        print(f"{i:^2} | {X_str:^45} | {fx_str:^45}")
+        
+        if np.linalg.norm(fx) < tol:
+            print("=" * 100)
+            print(f"Converged in {i} iterations.")
+            return X
+            
+        try:
+            delta = np.linalg.solve(J(X), -fx)
+        except np.linalg.LinAlgError:
+            print("=" * 100)
+            print("Jacobian is singular. Stopping iteration.")
+            return X
+        X += delta
+        
+    print("=" * 72)
+    print("Maximum iterations reached without convergence.")
+    return X
+
+x0 = np.array([0,1])
+
+def f(x0):
+    x, y = x0[0], x0[1]
+    return np.array([4*y**2 + 4*y + 52*x - 19, 169*x**2 + 3*y**2 + 111*x - 10*y - 10])
+
+
+def J_dir(x0): #Direct analytical derivative matrix (Jacobian)
+    x, y = x0[0].astype(float), x0[1].astype(float) #Must have at most as many elements as X or there'll be an index error.  
+    return np.array([[52, 8*y+4],[338*x + 111, 6*y - 10]]) # Dimensions must match F(X)
+
+
+def J_dif(x0, h=1e-5): #Jacobian using finite difference approx for partial derivatives
+    x0 = x0.astype(float)
+    n = len(x0)
+    m = len(f(x0))
+    J_approx = np.zeros((m, n)) # m rows = number of inputs (X) , n columns = number of outputs (f(X))
+                                # Dimensions of J match the dimensions of F. 
+    
+    for j in range(n):
+        xf = x0.copy()
+        xb = x0.copy()
+        xf[j] += h
+        xb[j] -= h
+        J_approx[:, j] = (f(xf) - f(xb)) / (2 * h)
+    
+    return J_approx
+
+
+
+sol = Newtons_method(f, x0, J_dir)
+
+sol1 = Newtons_method(f, x0, J_dif)
+
+print(f"Final Solution with J_dir: {sol}")
+print(f"Final Solution with J_dif: {sol1}")
