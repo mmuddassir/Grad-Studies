@@ -1,33 +1,25 @@
 import math
 
 def newton(f, f_prime, x, nmax, epsilon, delta):
-    # fx <- f(x)
     fx = f(x)
     
-    # output 0, x, fx
     print(f"{0:^2} | {x:^45} | {fx:^45} |")
     
-    # for n = 1 to nmax do
     for n in range(1, nmax + 1):
         # fp <- f'(x)
         fp = f_prime(x)
         
-        # if |fp| < delta then
         if abs(fp) < delta:
             print("Output: small derivative")
             return
             
-        # d <- fx/fp
         d = fx / fp
-        # x <- x - d
         x = x - d
-        # fx <- f(x)
         fx = f(x)
         
-        # output n, x, fx
         print(f"{n:^2} | {x:^45} | {fx:^45} | ")
         
-        # if |d| < epsilon then
+
         if abs(d) < epsilon:
             print("Output: convergence\n")
             return

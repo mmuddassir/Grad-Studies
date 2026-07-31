@@ -1,0 +1,70 @@
+import numpy as np 
+import math
+import matplotlib.pyplot as plt
+
+def Divided_Differences(x,f):
+    n = len(x) - 1
+
+    a = np.zeros(n+1)
+
+    for i in range(n+1):
+        a[i] = f[i]     #Initialize the coefficient array
+                        #Set all "coefficients" to the function
+                        #at the node. 
+
+    for j in range(1,n+1): # number of iterations = number of x and f values
+                           # Also, the first coefficient remains untouched
+        for i in range(n,j-1,-1): #Updates one fewer term each time
+                                  # a_1 to a_n updated in the first iteration
+                                  # a_2 to a_n in second iteration and so on. 
+            a[i] = (a[i]-a[i-1])/(x[i]-x[i-j])
+    return a
+
+def Eval(x,y,t):
+    m = len(x)-1
+    coef = Divided_Differences(x,y)
+     
+    temp = coef[-1]
+    #t = np.linspace(-np.pi,2*np.pi)
+    e = np.zeros(len(x))
+
+    for k in range(m-1,-1,-1):
+         temp = temp*(t-x[k]) + coef[k]
+
+    return temp
+
+def error_vals():
+    n = 9
+    h = 1.6875/n
+    x = np.zeros(n)
+    y = np.zeros(n)
+     
+    for k in range(n):
+        x[k] = k*h
+        y[k] = np.sin(x[k])
+    coeffs = Divided_Differences(x,y)
+
+    e_max = 0
+
+    for j in range(4*n):
+        t = j*h/4
+        p = Eval(x,y,t)
+        e = abs(np.sin(t) - p)
+
+        if e > e_max:
+             j_max = j
+             t_max = t
+             p_max = p
+             e_max = e
+    return j_max, t_max, p_max, e_max
+
+j_max,t_max,p_max,e_max = error_vals()
+
+print(f"j_max = {j_max:<15} t_max = {t_max:<18} p_max = {p_max:<25} e_max = {e_max:<11}")
+
+x = [-0.5789200, -0.3626370, -0.1849160, -0.0340642, 0.0969858]
+y = [1.0, 2.0, 3.0, 4.0, 5.0]
+
+results = Eval(x,y,0)
+
+print(results)

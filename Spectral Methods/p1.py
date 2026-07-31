@@ -72,5 +72,4 @@ ax.legend()
 
 plt.tight_layout()
 plt.savefig('Spectral Methods\Figures\p1_convergence.pdf', dpi=150)
-plt.show()
 print("Done. Plot saved to p1_convergence.png")
