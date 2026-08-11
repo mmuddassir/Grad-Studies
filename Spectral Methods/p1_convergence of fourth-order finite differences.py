@@ -11,17 +11,17 @@ import numpy as np
 import scipy.sparse as sp
 import matplotlib.pyplot as plt
 
-# Grid sizes: N = 2^3, 2^4, ..., 2^12
+
 Nvec = 2 ** np.arange(3, 13)
 
 fig, ax = plt.subplots(figsize=(7, 5))
 
 for N in Nvec:
     h = 2 * np.pi / N
-    x = -np.pi + np.arange(1, N + 1) * h   # N evenly-spaced points on (-pi, pi]
+    x = -np.pi + np.arange(1, N + 1) * h   
 
-    u      = np.exp(np.sin(x))              # test function
-    uprime = np.cos(x) * u                  # exact derivative
+    u = np.exp(np.sin(x))   # test function
+    uprime = np.cos(x) * u       # exact derivative
 
     # ------------------------------------------------------------------
     # Build the 4th-order skew-symmetric differentiation matrix.
