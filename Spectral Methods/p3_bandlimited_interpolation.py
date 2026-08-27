@@ -1,23 +1,4 @@
-"""
-p3_bandlimited_interpolation.py
-
-Chapter 2: Band-limited interpolation on an unbounded periodic grid.
-
-Given samples v_j of a function at grid points x_j = j*h, the band-limited
-(sinc) interpolant is
-
-    p(x) = sum_j v_j * sinc((x - x_j) / h),   sinc(t) = sin(pi t) / (pi t)
-
-This is the continuous analogue of Fourier/spectral differentiation on an
-infinite grid: it reconstructs the unique band-limited function (no Fourier
-content above the grid's Nyquist frequency) that interpolates the samples.
-
-We reproduce this for two data sets: a "hat" function (continuous but with a
-corner -> the interpolant has algebraic decay in its overshoot) and a
-single unit spike (interpolant is the pure sinc pattern), illustrating how
-well band-limited interpolation performs to functions of differing
-smoothness.
-"""
+"""Band Limited Interpolation"""
 import numpy as np
 import matplotlib
 matplotlib.use("Agg")

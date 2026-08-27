@@ -1,22 +1,8 @@
 """
-p4_periodic_diff_matrix.py
 
-Chapter 2/3: Periodic spectral differentiation using the explicit
+Chapter 2: Periodic spectral differentiation using the explicit
 differentiation matrix D_N built from the cotangent (Dirichlet-kernel)
-formula. For an even number of points N on the periodic grid x_j = j*h,
-h = 2*pi/N, the matrix is the skew-symmetric Toeplitz matrix with
-
-    D_{ij} = 0                                  if i == j
-    D_{ij} = (1/2) * (-1)^(i-j) * cot((i-j)h/2)  if i != j
-
-Applying D to a sampled vector v approximates v'(x_j) with spectral
-(faster than any power of h) accuracy, provided v is smooth and periodic.
-
-We test this on two functions:
-  1. v(x) = |sin(x)|^3            (three continuous derivatives -> algebraic
-                                    convergence, not spectral)
-  2. v(x) = exp(sin(x))           (analytic and periodic -> spectral,
-                                    exponential convergence)
+formula. 
 """
 import numpy as np
 from scipy.linalg import toeplitz

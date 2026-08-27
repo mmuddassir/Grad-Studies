@@ -95,3 +95,16 @@ for N in [128, 256, 512, 1024, 2048, 4096]:
     t2 = time.perf_counter()
 
     print(f"{N:<5d} {t1-t0:10.5f} {t2-t1:15.5f} {(t2-t1)/(t1-t0):18.2f}")
+
+print("Specifically for the function in p6\n")
+
+print("N       FFT total(s)   matrix total(s)   matrix/FFT ratio")
+for N in [128, 256, 512, 1024]:  
+    t0 = time.perf_counter()
+    x_fft, v_fft = p6_fft(N)
+    t1 = time.perf_counter()
+    
+    x_mat, v_mat = p6_matrix(N)
+    t2 = time.perf_counter()
+
+    print(f"{N:<5d} {t1-t0:10.5f} {t2-t1:15.5f} {(t2-t1)/(t1-t0):18.2f}")
