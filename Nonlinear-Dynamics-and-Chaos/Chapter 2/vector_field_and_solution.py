@@ -8,12 +8,12 @@ t = np.arange(0,10+dt,dt)
 r=2
 
 
-func = lambda x: r*x*(1-x)
+func = lambda x: x - x**2
 
 N = len(t)
 results = []
 
-for n in [0,0.01,1,1.5,2]:
+for n in [0,0.1,0.5,1,1.5,2]:
 
     results.append(RK4(func,n,dt,N))
 print(np.max(results[-1]))
@@ -23,10 +23,10 @@ x_grid = np.linspace(0, np.max(results[-1]), 30)
 T, X = np.meshgrid(t_grid, x_grid)
 
 # 3. Compute Slopes
-dt_field = np.ones_like(X)    # change in t (dt)
-dx_field = func(X)           # change in x (dx)
+dt_field = np.ones_like(X)
+dx_field = func(X)          
 
-# Normalize the vectors (so they are all the same length)
+# Normalize the vectors
 norm = np.sqrt(dt_field**2 + dx_field**2)
 dt_field /= norm
 dx_field /= norm
@@ -42,8 +42,8 @@ ax1.quiver(T, X, dt_field, dx_field, magnitude,
 for j in range(len(results)):
     ax1.plot(t, results[j], color="black", linewidth=2)
 
-ax1.set_xlabel('Time (t)')
-ax1.set_ylabel('State (x)')
+ax1.set_xlabel(r'Time ($t$)')
+ax1.set_ylabel(r'State ($u$)')
 ax1.set_title('Vector Field & RK4 Solutions')
 ax1.grid(True, alpha=0.3)
 

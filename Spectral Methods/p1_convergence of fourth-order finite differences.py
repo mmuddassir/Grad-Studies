@@ -12,7 +12,7 @@ import scipy.sparse as sp
 import matplotlib.pyplot as plt
 
 
-Nvec = 2 ** np.arange(3, 13)
+Nvec = 2 ** np.arange(3, 20)
 
 fig, ax = plt.subplots(figsize=(7, 5))
 
@@ -71,5 +71,6 @@ ax.grid(True, which='both', linestyle=':', alpha=0.6)
 ax.legend()
 
 plt.tight_layout()
+plt.show()
 plt.savefig('Spectral Methods\Figures\p1_convergence.pdf', dpi=150)
 print("Done. Plot saved to p1_convergence.png")
