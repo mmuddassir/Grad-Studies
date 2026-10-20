@@ -12,7 +12,7 @@ import scipy.sparse as sp
 import matplotlib.pyplot as plt
 
 
-Nvec = 2 ** np.arange(3, 20)
+Nvec = 2 ** np.arange(7, 25)
 
 fig, ax = plt.subplots(figsize=(7, 5))
 
@@ -61,16 +61,40 @@ for N in Nvec:
     ax.loglog(N, error, '.', markersize=15, color='steelblue')
 
 # Reference line ~ N^{-4} to show expected convergence rate
-ax.loglog(Nvec, Nvec.astype(float) ** (-4), '--', color='gray', label=r'$N^{-4}$')
-ax.text(105, 5e-8, r'$N^{-4}$', fontsize=14, color='gray')
+#ax.loglog(Nvec, Nvec.astype(float) ** (-4), '--', color='gray', label=r'$N^{-4}$')
+#ax.text(105, 5e-8, r'$N^{-4}$', fontsize=14, color='gray')
 
 ax.set_xlabel('N')
 ax.set_ylabel('Error')
-ax.set_title('Convergence of 4th-order finite differences')
+ax.set_title('Convergence of finite differences')
 ax.grid(True, which='both', linestyle=':', alpha=0.6)
 ax.legend()
 
 plt.tight_layout()
+
+
+#plt.show()
+print("Done. Plot saved to convergence.pdf")
+
+
+
+S = lambda u, k: np.roll(u, -k)
+
+schemes = {
+    "forward O(h)":   lambda u, h: (S(u,1) - u) / h,
+    "forward O(h²)":  lambda u, h: (-3*u + 4*S(u,1) - S(u,2)) / (2*h),
+    "forward O(h⁴)":  lambda u, h: (-25*u + 48*S(u,1) - 36*S(u,2)
+                                    + 16*S(u,3) - 3*S(u,4)) / (12*h),
+    "central O(h²)":  lambda u, h: (S(u,1) - S(u,-1)) / (2*h),
+    "central O(h⁴)":  lambda u, h: (8*(S(u,1) - S(u,-1))
+                                    - (S(u,2) - S(u,-2))) / (12*h),
+}
+for name, D in schemes.items():
+    errs = [np.max(np.abs(D(np.exp(np.sin(x)), h) - np.cos(x)*np.exp(np.sin(x))))
+            for N in Nvec
+            for h, x in [(2*np.pi/N, -np.pi + 2*np.pi*np.arange(N)/N)]]
+    ax.loglog(Nvec, errs, 'o-', label=name)
+plt.legend()
+plt.savefig('Spectral Methods\Figures\convergence.pdf', dpi=150)
 plt.show()
-plt.savefig('Spectral Methods\Figures\p1_convergence.pdf', dpi=150)
-print("Done. Plot saved to p1_convergence.png")
+
