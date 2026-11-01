@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from g_simul import Jac
 from glucose_model import equilibria
 
-a, c, b = 0.1, 1.0, 1.0 # Control parameters
+a, c, b = 0.05, 1.0, 1.0 # Control parameters
 
 Gstar = -(a+b)**2 / (4.0*a*b) # No equilibria for G < G*
 print(f"G* = {Gstar}")
@@ -51,7 +51,6 @@ for ax, plus, minus, name in [(axes[0], v_plus, v_minus, "v"), (axes[1], u_plus,
     ax.plot(Gs, np.where(~stable, plus, np.nan), 'r-', label="plus branch (unstable)")
     ax.plot(Gs, minus, 'k--', label="minus branch (saddle)")
     ax.axvline(Gstar, color='b', ls=':', label="G*")
-    ax.axvline(-1, color='grey', ls=':', label="G = -1")
     ax.set_xlabel("G"); ax.set_ylabel(name + " at equilibrium")
 axes[0].axhline(-1, color='grey', ls='-.')   # v = -1 means zero glucose
 axes[0].legend(fontsize=8)
