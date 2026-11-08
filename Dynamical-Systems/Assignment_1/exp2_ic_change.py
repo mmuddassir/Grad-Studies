@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from glucose_model import run_orbit, equilibria
 
 a, c, b = 0.1, 1.0, 1.0                     # <-- change these to try other controllers
-u0 = [0,-1.5]                              # <-- change the initial condition: [u, v]
+u0 = [0.5,0.5]                              # <-- change the initial condition: [u, v]
 Gstar = -(a + b)**2 / (4.0*a*b)
 print("a=%g c=%g b=%g   G* = %.4f   start u0=%s" % (a, c, b, Gstar, u0))
 
