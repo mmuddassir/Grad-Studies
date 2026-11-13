@@ -5,7 +5,7 @@ from g_simul import Jac
 from glucose_model import equilibria
 
 # ---- Parameters ----
-a = 0.1
+a = 1.0
 c = 1.0
 b = 1.0
 
@@ -106,48 +106,53 @@ unstable_real = ~stable & ~complex_eig
 unstable_complex = ~stable & complex_eig
 
 # ---- Plot ----
-fig, axes = plt.subplots(1, 2, figsize=(11, 4.5))
+#fig, axes = plt.subplots(1, 1, figsize=(11, 4.5))
 
 # Left plot: v against G
-ax = axes[0]
-ax.plot(Gs, np.where(stable_real, v_plus, np.nan), 'g-', lw=2, label="plus branch (stable, real)")
-ax.plot(Gs, np.where(stable_complex, v_plus, np.nan), 'g:', lw=2, label="plus branch (stable, complex)")
-ax.plot(Gs, np.where(unstable_real, v_plus, np.nan), 'r-', lw=2, label="plus branch (unstable, real)")
-ax.plot(Gs, np.where(unstable_complex, v_plus, np.nan), 'r:', lw=2, label="plus branch (unstable, complex)")
-ax.plot(Gs, v_minus, 'k--', label="minus branch (saddle)")
 
-ax.axvline(Gstar, color='b', ls=':', alpha=0.4)
+plt.plot(Gs, np.where(stable_real, v_plus, np.nan), 'g-', lw=2, label="plus branch (stable, real)")
+plt.plot(Gs, np.where(stable_complex, v_plus, np.nan), 'g:', lw=2, label="plus branch (stable, complex)")
+plt.plot(Gs, np.where(unstable_real, v_plus, np.nan), 'r-', lw=2, label="plus branch (unstable, real)")
+plt.plot(Gs, np.where(unstable_complex, v_plus, np.nan), 'r:', lw=2, label="plus branch (unstable, complex)")
+plt.plot(Gs, v_minus, 'k--', label="minus branch (saddle)")
 
-ax.plot(Gstar, sn_v, 'bs', ms=9, label="saddle-node (G*)")
+plt.axvline(Gstar, color='b', ls=':', alpha=0.4)
 
-ax.plot(hopf_G, hopf_v, 'o', color='gold', mec='k', ms=10, label="Hopf")
+plt.axvline(-1, color='b', ls=':', alpha=0.4)
+plt.axvline(0, color='b', ls=':', alpha=0.4)
+plt.axvline(1, color='b', ls=':', alpha=0.4)
+plt.axvline(2, color='b', ls=':', alpha=0.4)
 
-ax.axhline(-1, color='grey', ls='-.')  # v = -1 means zero glucose
+plt.plot(Gstar, sn_v, 'bs', ms=9, label="saddle-node (G*)")
 
-ax.set_xlabel("G")
+plt.plot(hopf_G, hopf_v, 'o', color='gold', mec='k', ms=10, label="Hopf")
 
-ax.set_ylabel("v at equilibrium")
+plt.axhline(-1, color='grey', ls='-.')  # v = -1 means zero glucose
 
-ax.legend(fontsize=7)
+plt.xlabel("G")
+
+plt.ylabel("v at equilibrium")
+
+plt.legend(fontsize=7)
 
 # Right plot: u against G
-ax = axes[1]
-ax.plot(Gs, np.where(stable_real, u_plus, np.nan), 'g-', lw=2)
-ax.plot(Gs, np.where(stable_complex, u_plus, np.nan), 'g:', lw=2)
-ax.plot(Gs, np.where(unstable_real, u_plus, np.nan), 'r-', lw=2)
-ax.plot(Gs, np.where(unstable_complex, u_plus, np.nan), 'r:', lw=2)
-ax.plot(Gs, u_minus, 'k--')
+#ax = axes[1]
+#ax.plot(Gs, np.where(stable_real, u_plus, np.nan), 'g-', lw=2)
+#ax.plot(Gs, np.where(stable_complex, u_plus, np.nan), 'g:', lw=2)
+#ax.plot(Gs, np.where(unstable_real, u_plus, np.nan), 'r-', lw=2)
+#ax.plot(Gs, np.where(unstable_complex, u_plus, np.nan), 'r:', lw=2)
+#ax.plot(Gs, u_minus, 'k--')
 
-ax.axvline(Gstar, color='b', ls=':', alpha=0.4)
+#ax.axvline(Gstar, color='b', ls=':', alpha=0.4)
 
-ax.plot(Gstar, sn_u, 'bs', ms=9)
+#ax.plot(Gstar, sn_u, 'bs', ms=9)
 
-ax.plot(hopf_G, hopf_u, 'o', color='gold', mec='k', ms=10)
+#ax.plot(hopf_G, hopf_u, 'o', color='gold', mec='k', ms=10)
 
-ax.set_xlabel("G")
+#ax.set_xlabel("G")
 
-ax.set_ylabel("u at equilibrium")
+#ax.set_ylabel("u at equilibrium")
 
-fig.suptitle("Equilibria: a=%g, c=%g, b=%g" % (a, c, b))
+#fig.suptitle("Equilibria: a=%g, c=%g, b=%g" % (a, c, b))
 plt.tight_layout()
 plt.savefig("Dynamical-Systems/Assignment_2/PDFs/1_param.pdf", dpi=150)
